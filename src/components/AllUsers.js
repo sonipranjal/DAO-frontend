@@ -36,10 +36,10 @@ const AllUsers = () => {
   const handleSortByName = () => {
     const usersCopy = [...allUsers];
     usersCopy.sort((a, b) => {
-      if (a.name < b.name) {
+      if (a.username < b.username) {
         return -1;
       }
-      if (a.name > b.name) {
+      if (a.username > b.username) {
         return 1;
       }
       return 0;
@@ -129,9 +129,12 @@ const AllUsers = () => {
                 ) : (
                   allUsers
                     .filter((user) => {
-                      return user.name
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase());
+                      return (
+                        user.name &&
+                        user.name
+                          .toLowerCase()
+                          .includes(searchQuery.toLowerCase())
+                      );
                     })
                     .map(
                       (

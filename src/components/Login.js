@@ -60,21 +60,30 @@ export default function Login({ onLoggedIn }) {
     }
   };
 
-  const handleAuth = async (publicAddress, signer) => {
-    const res = await axios({
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/users?publicAddress=${publicAddress}`,
-      method: 'GET',
-    }).catch((err) => {
-      setLoading(false);
-      console.error(err);
-      toast.error('server not respoding, try again later!');
-    });
+  const fetchUser = async (publicAddress) => {
+    try {
+      const res = await axios({
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/users?publicAddress=${publicAddress}`,
+        method: 'GET',
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    if (!res) {
-      const user = await handleSignup(publicAddress);
-      handleSignMessage(user, signer);
-    } else {
+  const handleAuth = async (publicAddress, signer) => {
+    try {
+      const res = await axios({
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/users?publicAddress=${publicAddress}`,
+        method: 'GET',
+      });
       handleSignMessage(res.data, signer);
+    } catch (error) {
+      console.error(error);
+      await handleSignup(publicAddress);
+      const user = await fetchUser(publicAddress);
+      handleSignMessage(user, signer);
     }
   };
 

@@ -99,6 +99,7 @@ const UserPage = ({ id }) => {
         role: '',
       });
       toast.success('Details saved successfully!');
+      router.push('/');
     } catch (error) {
       setLoading(false);
       toast.error(error);

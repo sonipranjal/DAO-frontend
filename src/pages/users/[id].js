@@ -102,7 +102,7 @@ const UserPage = ({ id }) => {
       router.push('/');
     } catch (error) {
       setLoading(false);
-      toast.error(error);
+      toast.error(error.toString());
     }
   };
 
